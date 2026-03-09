@@ -1,5 +1,6 @@
 package com.projectgabrielD.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -35,7 +36,7 @@ public class User implements Serializable {
     }
 
     @OneToMany(mappedBy = "client")
-
+    @JsonIgnore
     public List<Order> getOrders() {
         return orders;
     }
