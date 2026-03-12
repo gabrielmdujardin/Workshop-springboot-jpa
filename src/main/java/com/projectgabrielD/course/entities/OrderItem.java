@@ -1,5 +1,6 @@
 package com.projectgabrielD.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projectgabrielD.course.entities.pk.OrderItemPK;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
@@ -17,7 +18,7 @@ public class OrderItem implements Serializable {
 
 
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
     private Integer quantity;
     private  Double price;
 
@@ -33,6 +34,7 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder(){
         return id.getOrder();
     }
