@@ -2,9 +2,11 @@ package com.projectgabrielD.course.services;
 
 import com.projectgabrielD.course.entities.User;
 import com.projectgabrielD.course.repositories.UserRepository;
+import com.projectgabrielD.course.services.exceptions.DatabaseException;
 import com.projectgabrielD.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +35,14 @@ public class UserService {
         return repository.save(obj);
     }
     public void detele(long id){
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        }catch (EmptyResultDataAccessException e ){
+            throw new ResourceNotFoundException(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException(e.getMessage());
+        }
+
     }
 
     public User update(Long id, User obj){
